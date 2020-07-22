@@ -4,8 +4,8 @@
 
 'use strict';
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request);
-    sendResponse({ data: 'ok' });
+	console.log(request);
+	sendResponse({ data: 'ok' });
 });
 
 /* chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
