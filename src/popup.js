@@ -123,7 +123,6 @@ function getCurrentTabId() {
 
 function executeScript(args) {
     return new Promise((resolve, reject) => {
-        console.log('Inietto in tab:', tabId)
         chrome.tabs.executeScript(tabId, args, resolve);
     });
 }
