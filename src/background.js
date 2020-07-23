@@ -1,11 +1,11 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
+
+import { sleep } from './util';
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	console.log(request);
-	sendResponse({ data: 'ok' });
+    console.log(request);
+    sendResponse({ data: 'ok' });
 });
 
 /* chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -31,6 +31,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-} */
+ */

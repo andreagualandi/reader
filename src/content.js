@@ -1,5 +1,4 @@
 const MOUSE_VISITED_CLASSNAME = 'crx_mouse_visited';
-const contentScriptIsLoaded = true;
 let prevDOM = null;
 
 function onClick(e) {
