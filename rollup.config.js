@@ -1,20 +1,38 @@
 import { terser } from "rollup-plugin-terser";
 
-import {
-    chromeExtension,
-    simpleReloader,
-} from 'rollup-plugin-chrome-extension'
+const minify = process.env.prod ? terser() : null;
 
-export default {
-    input: 'src/manifest.json',
-    output: {
-        dir: 'dist',
-        format: 'esm',
+export default [
+    {
+        input: 'src/background.js',
+        output: {
+            file: 'dist/background.js',
+            format: 'esm'
+        },
+        plugins: [minify]
     },
-    plugins: [
-        // always put chromeExtension() before other plugins
-        chromeExtension(),
-        simpleReloader(),
-        process.env.prod ? terser() : null,
-    ],
-}
+    {
+        input: 'src/popup.js',
+        output: {
+            file: 'dist/popup.js',
+            format: 'esm'
+        },
+        plugins: [minify]
+    },
+    {
+        input: 'src/options.js',
+        output: {
+            file: 'dist/options.js',
+            format: 'esm'
+        },
+        plugins: [minify]
+    },
+    {
+        input: 'src/content.js',
+        output: {
+            file: 'dist/content.js',
+            format: 'esm'
+        },
+        plugins: [minify]
+    }
+];
