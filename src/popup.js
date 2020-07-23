@@ -1,4 +1,5 @@
 // --- INIT VARIABLES ---
+import { pretty } from './util';
 let tabId;
 const inspectButton = document.getElementById('inspect');
 const previewButton = document.getElementById('preview');
@@ -53,6 +54,7 @@ async function onOpen() {
 	const tabs = await chromeApi.tabs.query({ active: true, currentWindow: true });
 	tabId = tabs[0].id;
 	inspectButton.style.backgroundColor = 'green';
+	pretty('eccolo');
 }
 
 async function onInspectClick(e) {
@@ -72,7 +74,7 @@ async function onInspectClick(e) {
 	console.log('--- fine click ---');
 }
 
-function onPreviewClick(e) {}
+function onPreviewClick(e) { }
 
 function inject() {
 	return new Promise((resolve, reject) => {

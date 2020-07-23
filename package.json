@@ -4,12 +4,12 @@
   "description": "",
   "scripts": {
     "lint": "prettier --write '**/*.js'",
-    "clean": "rm -rf ./dist/*",
-    "dev": "parcel --no-minify src/**/*.{html,js,css}",
-    "prod": "parcel build --no-source-maps src/**/*.{html,js,css}",
-    "copy": "cp -RT ./src/static ./dist",
-    "build": "run-s prod copy",
-    "build-dev": "run-s dev copy"
+    "clean": "rm -rf ./dist/* .cache",
+    "copy": "cp -RT ./src/images ./dist",
+    "rollup-dev": "rollup -c",
+    "rollup-prod": "rollup -c --environment prod",
+    "prod": "run-s clean rollup-prod copy",
+    "dev": "run-s clean rollup-dev"
   },
   "repository": {
     "type": "git",
@@ -27,9 +27,10 @@
   "devDependencies": {
     "eslint": "^7.5.0",
     "npm-run-all": "^4.1.5",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-static-files-copy": "^2.4.3",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "rollup": "^2.22.2",
+    "rollup-plugin-chrome-extension": "^3.2.0",
+    "rollup-plugin-terser": "^6.1.0"
   },
   "dependencies": {}
 }
