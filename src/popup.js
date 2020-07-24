@@ -22,7 +22,6 @@ async function onInspectClick(e) {
 
 	const msg = clickedInspect ? 'enable' : 'disable';
 	console.log('Invio messaggio', msg, tabId);
-	console.log('messaggio inviato');
 	await sendMessage({ data: msg }, tabId);
 
 	inspectButton.style.backgroundColor = clickedInspect ? 'red' : 'green';

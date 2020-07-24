@@ -21,12 +21,12 @@ export function insertCSS(tabId, args) {
 export function sendMessage(msg, tabId = null) {
     return new Promise((resolve, reject) => {
         if (tabId) {
-            chrome.tabs.sendMessage(tabId, { data: msg }, (data) => {
+            chrome.tabs.sendMessage(tabId, msg, (data) => {
                 const lastError = chrome.runtime.lastError;
                 lastError instanceof Object ? reject(lastError.message) : resolve(data);
             });
         } else {
-            chrome.runtime.sendMessage({ data: msg }, (data) => {
+            chrome.runtime.sendMessage(msg, (data) => {
                 const lastError = chrome.runtime.lastError;
                 lastError instanceof Object ? reject(lastError.message) : resolve(data);
             });
