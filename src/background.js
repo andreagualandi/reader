@@ -2,10 +2,12 @@
 
 import { sleep } from './util';
 
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request);
-    sendResponse({ data: 'ok' });
+	console.log(request);
+	if (request.data === 'open') {
+		chrome.tabs.create({ url: chrome.runtime.getURL('feed.html') });
+	}
+	sendResponse({ data: 'ok' });
 });
 
 /* chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

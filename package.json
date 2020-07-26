@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "lint": "prettier --write '**/*.js'",
+    "lint": "prettier --write './src**/*.js'",
     "clean": "rm -rf ./dist/* .cache",
     "copy": "cpx-fixed 'src/**/*.{json,png,svg,css,html}' dist",
     "rollup-dev": "rollup -c",

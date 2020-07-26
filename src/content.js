@@ -1,11 +1,26 @@
 const MOUSE_VISITED_CLASSNAME = 'crx_mouse_visited';
+const CRX_HIGHLIGHT_CLASSNAME = 'crx_highlight';
 let prevDOM = null;
+let selectedDomItems = [];
+
+function start() {
+	document.body.classList.add('pointer-crosshair');
+	document.addEventListener('mousemove', onMouseMove);
+	document.addEventListener('click', onClick);
+}
+
+function finish() {
+	document.removeEventListener('mousemove', onMouseMove);
+	document.removeEventListener('click', onClick);
+	document.body.classList.remove('pointer-crosshair');
+}
 
 function onClick(e) {
 	e.preventDefault();
 	prevDOM.classList.remove(MOUSE_VISITED_CLASSNAME);
 	const res = getSameElements(e.target);
 	console.log(res);
+	finish();
 }
 
 function onMouseMove(e) {
@@ -22,16 +37,20 @@ function onMouseMove(e) {
 	}
 }
 
-function mousePointActive() {
-	document.body.classList.add('pointer-crosshair');
+function highlights() {
+	selectedDomItems.forEach((item) => {
+		item.classList.toggle(CRX_HIGHLIGHT_CLASSNAME);
+	});
 }
+
 
 function getSameElements(target) {
 	const selector = getQuerySelector(target);
 	console.log('selector', selector);
 
-	const DOMitems = document.querySelectorAll(selector);
-	const textItems = Array.prototype.map.call(DOMitems, function (t) {
+	selectedDomItems = document.querySelectorAll(selector);
+	const textItems = Array.prototype.map.call(selectedDomItems, function (t) {
+		t.classList.add(CRX_HIGHLIGHT_CLASSNAME);
 		return t.textContent;
 	});
 	return textItems;
@@ -50,22 +69,25 @@ function getSelectorForElement(element) {
 	}
 
 	selector = element.tagName.toLowerCase();
-	if (element.className) {
+	if (element.className && element.className.length > 1) {
 		selector = '.' + element.className.replace(/ /g, '.'); //rimuove spazi bianchi nel nome
 	}
 
 	return selector;
 }
 
+function parseMsg(action) {
+	switch (action) {
+		case 'selectionOn': return start();
+		case 'selectionOff': return finish();
+		case 'highlights': return highlights();
+		default: console.error('Action not valid', action);
+	}
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.log('Ricevuto messaggio', request);
-	if (request.data === 'enable') {
-		document.addEventListener('mousemove', onMouseMove);
-		document.addEventListener('click', onClick);
-	} else {
-		document.removeEventListener('mousemove', onMouseMove);
-		document.removeEventListener('click', onClick);
-	}
+	parseMsg(request.data);
 
 	sendResponse({ data: 'ok' });
 });

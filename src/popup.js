@@ -4,7 +4,9 @@ import { executeScript, insertCSS, sendMessage, getCurrentTabId } from './util';
 let tabId;
 const inspectButton = document.getElementById('inspect');
 const previewButton = document.getElementById('preview');
+const startButton = document.getElementById('start');
 let clickedInspect = false;
+let clickedPreview = false;
 
 // --- METHODS ---
 
@@ -20,7 +22,7 @@ async function onInspectClick(e) {
 
 	await inject();
 
-	const msg = clickedInspect ? 'enable' : 'disable';
+	const msg = clickedInspect ? 'selectionOn' : 'selectionOff';
 	console.log('Invio messaggio', msg, tabId);
 	await sendMessage({ data: msg }, tabId);
 
@@ -28,7 +30,13 @@ async function onInspectClick(e) {
 	console.log('--- fine click ---');
 }
 
-function onPreviewClick(e) { }
+async function onPreviewClick(e) {
+	await sendMessage({ data: 'highlights' }, tabId);
+}
+
+async function onStartClick(e) {
+	await sendMessage({ data: 'open' });
+}
 
 function inject() {
 	return new Promise((resolve, reject) => {
@@ -47,8 +55,8 @@ function inject() {
 	});
 }
 
-
 // --- BIND EVENTs ---
 window.onload = onOpen;
 inspectButton.onclick = onInspectClick;
 previewButton.onclick = onPreviewClick;
+startButton.onclick = onStartClick;

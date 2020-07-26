@@ -3,6 +3,10 @@
     outline: 1px dashed #e9af6e!important;
 }
 
+.crx_highlight {
+    outline: 2px solid #e9af6e!important;
+}
+
 .pointer-crosshair{
     cursor: crosshair;
 }
