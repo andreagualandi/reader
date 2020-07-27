@@ -2,6 +2,7 @@ const MOUSE_VISITED_CLASSNAME = 'crx_mouse_visited';
 const CRX_HIGHLIGHT_CLASSNAME = 'crx_highlight';
 let prevDOM = null;
 let selectedDomItems = [];
+let selector = null;
 
 function start() {
 	document.body.classList.add('pointer-crosshair');
@@ -19,8 +20,16 @@ function onClick(e) {
 	e.preventDefault();
 	prevDOM.classList.remove(MOUSE_VISITED_CLASSNAME);
 	const res = getSameElements(e.target);
-	console.log(res);
-	finish();
+	//console.log(res);
+
+	chrome.runtime.sendMessage({ action: 'save', data: { name: 'test', url: document.URL, selector: selector } }, (data) => {
+		console.log('risultato salvataggio', data);
+		//const lastError = chrome.runtime.lastError;
+		//lastError instanceof Object ? reject(lastError.message) : resolve(data);
+		//finish();
+	});
+
+
 }
 
 function onMouseMove(e) {
@@ -45,7 +54,7 @@ function highlights() {
 
 
 function getSameElements(target) {
-	const selector = getQuerySelector(target);
+	selector = getQuerySelector(target);
 	console.log('selector', selector);
 
 	selectedDomItems = document.querySelectorAll(selector);
@@ -87,7 +96,7 @@ function parseMsg(action) {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	console.log('Ricevuto messaggio', request);
-	parseMsg(request.data);
+	parseMsg(request.action);
 
 	sendResponse({ data: 'ok' });
 });

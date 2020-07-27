@@ -1,13 +1,33 @@
 'use strict';
 
-import { sleep } from './util';
+import { sleep, storageGet, storageSet, createTab, hash } from './util';
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	console.log(request);
-	if (request.data === 'open') {
-		chrome.tabs.create({ url: chrome.runtime.getURL('feed.html') });
-	}
-	sendResponse({ data: 'ok' });
+function parseMsg(action, data = null) {
+    switch (action) {
+        case 'feed': return openFeedTab();
+        case 'save': return saveFeed(data);
+        default: console.error('Action not valid', action);
+    }
+}
+
+function openFeedTab() {
+    return createTab('feed.html');
+}
+
+async function saveFeed(data) {
+    const id = hash(data.name);
+    console.log('id', id);
+    await storageSet(id, data);
+    return id;
+}
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    console.log('Messaggio ricevuto in back', request);
+    if (request.action) {
+        const result = await parseMsg(request.action, request.data)
+        sendResponse({ data: result });
+    }
+
 });
 
 /* chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

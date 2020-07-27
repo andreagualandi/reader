@@ -33,3 +33,32 @@ export function sendMessage(msg, tabId = null) {
 		}
 	});
 }
+
+export function storageSet(key, value) {
+	return new Promise((resolve, reject) => {
+		chrome.storage.sync.set({ [key]: value }, resolve);
+	});
+}
+
+export function storageGet(key) {
+	return new Promise((resolve, reject) => {
+		chrome.storage.sync.get(key, resolve);
+	});
+}
+
+export function createTab(htmlFile) {
+	return new Promise((resolve, reject) => {
+		chrome.tabs.create({ url: chrome.runtime.getURL(htmlFile) }, resolve);
+	});
+}
+
+export function hash(text) {
+	let hash = 0;
+	let char;
+	for (let i = 0; i < text.length; i++) {
+		char = text.charCodeAt(i)
+		hash = ((hash << 5) - hash) + char;
+		hash |= 0;
+	}
+	return hash;
+}
