@@ -41,25 +41,17 @@ async function onSaveClick(e) {
 	await sendMessage({ action: 'save' });
 }
 
-function inject() {
-	return new Promise((resolve, reject) => {
-		// start listening
-		chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
-			console.log('Messaggio ricevuto in popup', message);
-			if (message.loaded === false) {
-				await executeScript(tabId, { file: 'content.js' });
-				await insertCSS(tabId, { file: 'content.css' });
-			}
-			resolve(true);
-			sendResponse({ result: 'popup - done' })
-			return;
-		});
-		// ping content script
-		executeScript(tabId, {
-			code: "chrome.runtime.sendMessage({ loaded: typeof(MOUSE_VISITED_CLASSNAME) !== 'undefined' });",
-		});
-	});
+async function inject() {
+	const results = await executeScript(tabId, { file: 'content.js' });
+	if (chrome.runtime.lastError || !results || !results.length) {
+		return;  // Permission error, tab closed, etc.
+	}
+	if (results[0] !== true) {
+		// Not already inserted before, do your thing, e.g. add your CSS:
+		return insertCSS(tabId, { file: 'content.css' });
+	}
 }
+
 
 // --- BIND EVENTs ---
 window.onload = onOpen;

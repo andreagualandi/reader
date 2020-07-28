@@ -6,7 +6,7 @@ function parseMsg(action, data = null) {
     switch (action) {
         case 'feed': return openFeedTab();
         case 'save': return saveFeed(data);
-        default: console.error('Action not valid', action);
+        default: Promise.resolve('Action not valid');
     }
 }
 
@@ -21,14 +21,14 @@ async function saveFeed(data) {
     return id;
 }
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('Messaggio ricevuto in back', request);
     if (request.action) {
-        const result = await parseMsg(request.action, request.data)
-        sendResponse({ data: result });
+        parseMsg(request.action, request.data).then(sendResponse);
+        return true;
     }
-
 });
+
 
 /* chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request);
