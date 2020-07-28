@@ -2,9 +2,9 @@
 
 import { sleep, storageGet, storageSet, createTab, hash } from './util';
 
-function parseMsg(action, data = null) {
+async function parseMsg(action, data = null) {
     switch (action) {
-        case 'feed': return openFeedTab();
+        case 'start': return openFeedTab();
         case 'save': return saveFeed(data);
         default: Promise.resolve('Action not valid');
     }
@@ -21,6 +21,7 @@ async function saveFeed(data) {
     return id;
 }
 
+// ATTENCTION: Using async as a listener function doesn't work
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('Messaggio ricevuto in back', request);
     if (request.action) {

@@ -34,7 +34,7 @@ async function onPreviewClick(e) {
 }
 
 async function onStartClick(e) {
-	await sendMessage({ action: 'open' });
+	await sendMessage({ action: 'start' });
 }
 
 async function onSaveClick(e) {

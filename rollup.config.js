@@ -34,5 +34,13 @@ export default [
             format: 'esm'
         },
         plugins: [minify]
+    },
+    {
+        input: 'src/feed.js',
+        output: {
+            file: 'dist/feed.js',
+            format: 'esm'
+        },
+        plugins: [minify]
     }
 ];
