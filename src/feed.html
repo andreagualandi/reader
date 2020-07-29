@@ -3,41 +3,71 @@
 
 <head>
     <style>
-        #content {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-
         body {
             display: flex;
             align-items: center;
             flex-flow: column;
             min-height: 100vh;
-            padding: 0;
+            margin: 0px;
             background-color: #121212;
         }
 
         p {
             background-color: #1D1D1D;
             color: #E2E2E2;
-            width: 100%;
             margin: 10px;
             border-radius: 10px;
             font-size: 20px;
-            padding: 15px
+            padding: 15px;
+            transition: opacity 500ms linear;
         }
 
         h1 {
             color: #BF89FF;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #content {
+            display: flex;
+            flex-flow: column;
+            margin: 5px;
+        }
+
+        #loader {
+            border: 16px solid #E2E2E2;
+            border-top: 16px solid #BF89FF;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -50px 0px 0px -50px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 
 <body>
     <h1>Feed</h1>
-    <div id="content">
-    </div>
+    <div id="loader"></div>
+    <div id="content"></div>
+    <ul id="list" class="swing">
+
+    </ul>
 </body>
 
 <script src="feed.js"></script>
