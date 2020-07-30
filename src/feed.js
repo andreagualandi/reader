@@ -13,16 +13,41 @@ function createElement(text) {
     document.getElementById("content").appendChild(p);
 }
 
+function clearList() {
+    const content = document.getElementById("content");
+
+    while (content.firstChild) {
+        content.removeChild(content.firstChild);
+    }
+}
+
 function removeLoader() {
     document.getElementById('loader').classList.add('hide');
 }
 
+function addLoader() {
+    document.getElementById('loader').classList.remove('hide');
+}
 
-async function onOpen() {
-    chrome.storage.sync.get(console.log)
+function setupRefresh() {
+    setInterval(main, 10000);
+}
+
+async function main() {
+    addLoader();
+    clearList();
+
+    document.getElementById('')
     const data = await getItem('3556498');
     await getData(data.url, data.selector);
+
     removeLoader();
+}
+
+async function onOpen() {
+    await main();
+    chrome.storage.sync.get(console.log)
+    setupRefresh();
 }
 
 async function getData(url, selector) {
