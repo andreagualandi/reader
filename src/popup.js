@@ -2,9 +2,9 @@
 import { executeScript, insertCSS, sendMessage, getCurrentTabId } from './util';
 
 let tabId;
-const inspectButton = document.getElementById('inspect');
+const inspectButton = document.getElementById('select-button');
 const previewButton = document.getElementById('preview');
-const startButton = document.getElementById('start');
+const startButton = document.getElementById('rss-button');
 let clickedInspect = false;
 
 // --- METHODS ---
