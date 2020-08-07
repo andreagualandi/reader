@@ -4,7 +4,7 @@ import { executeScript, insertCSS, sendMessage, getCurrentTabId } from './util';
 let tabId;
 const inspectButton = document.getElementById('select-button');
 const previewButton = document.getElementById('preview');
-const startButton = document.getElementById('rss-button');
+const startButton = document.getElementById('live-button');
 let clickedInspect = false;
 
 // --- METHODS ---
@@ -29,16 +29,8 @@ async function onInspectClick(e) {
 	console.log('--- fine click ---');
 }
 
-async function onPreviewClick(e) {
-	await sendMessage({ action: 'highlights' }, tabId);
-}
-
 async function onStartClick(e) {
 	await sendMessage({ action: 'start' });
-}
-
-async function onSaveClick(e) {
-	await sendMessage({ action: 'save' });
 }
 
 async function inject() {
@@ -56,5 +48,4 @@ async function inject() {
 // --- BIND EVENTs ---
 window.onload = onOpen;
 inspectButton.onclick = onInspectClick;
-previewButton.onclick = onPreviewClick;
 startButton.onclick = onStartClick;
