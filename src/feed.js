@@ -30,7 +30,7 @@ function addLoader() {
 }
 
 function setupRefresh() {
-    const interval = 5 * 60 * 1000
+    const interval = 2 * 60 * 1000
     setInterval(main, interval);
 }
 
