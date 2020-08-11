@@ -5,34 +5,71 @@
     <style>
         body {
             margin: 0;
-            height: 600px;
-            width: 800px;
+            max-height: 600px;
+            min-width: 230px;
         }
 
         #container {
             display: flex;
-            height: -webkit-fill-available;
-        }
-
-        #sidebar {
-            display: flex;
             flex-direction: column;
-            justify-content: space-evenly;
-            border-right: 1px solid;
+            height: -webkit-fill-available;
+            background-color: #121212;
+            color: #E2E2E2;
         }
 
-        #sidebar a {
-            text-decoration: none;
-            width: 64px;
-            height: 100%;
+        #header {
+            display: flex;
+            justify-content: space-between;
+            flex-flow: column;
+            border-bottom: 1px solid;
             padding: 10px;
+
         }
 
-        #sidebar a:hover {
-            background-color: khaki;
+        #title {
+            display: flex;
+            align-self: center;
+            font-size: 28px;
+            margin: 5px;
         }
 
-        img {
+        #buttons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            background-color: #1D1D1D;
+        }
+
+        #buttons a {
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 5px;
+        }
+
+        #buttons a:hover {
+            box-shadow: 0 0 5px 2px rgba(119, 62, 160, 0.4), 0.5rem 0.5rem 30px #13092d;
+        }
+
+        #select-button img {
+            -webkit-mask: url(images/target.svg) no-repeat 100% 100%;
+            -webkit-mask-size: contain;
+            background-color: #BF89FF;
+            height: 24px;
+            width: 24px;
+        }
+
+        #live-button img {
+            -webkit-mask: url(images/live.svg) no-repeat 100% 100%;
+            -webkit-mask-size: contain;
+            /*background-color: #BF89FF;*/
+            background-color: blanchedalmond;
+            height: 24px;
+            width: 24px;
+        }
+
+        .svg {
             width: inherit;
             height: inherit;
         }
@@ -41,14 +78,17 @@
 
 <body>
     <div id="container">
-        <div id="sidebar">
-            <a id="select-button">
-                <img src="images/select.svg" />
-            </a>
+        <div id="header">
+            <h1 id="title">aReader</h1>
+            <div id="buttons">
+                <a id="select-button">
+                    <img class="svg" />
+                </a>
 
-            <a id="live-button">
-                <img src="images/live.svg" />
-            </a>
+                <a id="live-button">
+                    <img class="svg" />
+                </a>
+            </div>
         </div>
         <ul id="list">
             <li>first</li>

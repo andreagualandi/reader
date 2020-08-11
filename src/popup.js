@@ -11,7 +11,6 @@ let clickedInspect = false;
 
 async function onOpen() {
 	tabId = await getCurrentTabId();
-	inspectButton.style.backgroundColor = 'green';
 }
 
 async function onInspectClick(e) {
