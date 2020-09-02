@@ -1,11 +1,12 @@
+//import XModal from './x-modal';
 // Wrapping in a function to not leak/modify variables if the script
 // was already inserted before.
 (function () {
-	if (window.hasRun === true)
+	if (window.hasRun === true) {
 		return true;  // Will ultimately be passed back to executeScript
+	}
+
 	window.hasRun = true;
-
-
 
 	const MOUSE_VISITED_CLASSNAME = 'crx_mouse_visited';
 	const CRX_HIGHLIGHT_CLASSNAME = 'crx_highlight';
@@ -34,6 +35,7 @@
 
 		chrome.runtime.sendMessage({ action: 'save', data: { name: 'test', url: document.URL, selector: selector } }, (data) => {
 			console.log('risultato salvataggio', data);
+			createModal(selector);
 			//const lastError = chrome.runtime.lastError;
 			//lastError instanceof Object ? reject(lastError.message) : resolve(data);
 			finish();
@@ -111,8 +113,31 @@
 		sendResponse({ data: 'ok' });
 	});
 
+	let createModal = () => {
+
+		var iframe = document.createElement('iframe');
+		iframe.style.height = "360px";
+		iframe.style.width = "360px";
+		iframe.style.position = "fixed";
+		iframe.style.bottom = "0px";
+		iframe.style.right = "0px";
+		iframe.frameBorder = "none";
+		iframe.name = 'myIframe';
+		iframe.id = 'ifrm';
+		iframe.src = chrome.extension.getURL("iframe.html");
+		iframe.onload = function () {
+			iframe.contentWindow.postMessage('messaggione', '*');
+
+		}
+
+		document.body.appendChild(iframe);
 
 
+
+		window.addEventListener('message', function (event) {
+			alert('eccolo iframe ' + event.data);
+		});
+	}
 
 
 	// No return value here, so the return value is "undefined" (without quotes).

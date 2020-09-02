@@ -42,5 +42,13 @@ export default [
             format: 'esm'
         },
         plugins: [minify]
+    },
+    {
+        input: 'src/iframe.js',
+        output: {
+            file: 'dist/iframe.js',
+            format: 'esm'
+        },
+        plugins: [minify]
     }
 ];
