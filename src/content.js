@@ -13,6 +13,7 @@
 	let currDomElement = null;
 	let selectedDomItems = [];
 	let selector = null;
+	let iframe = null;
 
 	function start() {
 		document.body.classList.add('pointer-crosshair');
@@ -25,23 +26,16 @@
 		document.removeEventListener('click', onClick);
 		document.body.classList.remove('pointer-crosshair');
 		currDomElement && currDomElement.classList.remove(MOUSE_VISITED_CLASSNAME);
+		iframe && document.body.removeChild(iframe);
 	}
 
 	function onClick(e) {
 		e.preventDefault();
 		currDomElement.classList.remove(MOUSE_VISITED_CLASSNAME);
+		//just hihglights elements
 		const res = getSameElements(e.target);
 		//console.log(res);
-
-		chrome.runtime.sendMessage({ action: 'save', data: { name: 'test', url: document.URL, selector: selector } }, (data) => {
-			console.log('risultato salvataggio', data);
-			createModal(selector);
-			//const lastError = chrome.runtime.lastError;
-			//lastError instanceof Object ? reject(lastError.message) : resolve(data);
-			finish();
-		});
-
-
+		createModal(selector);
 	}
 
 	function onMouseMove(e) {
@@ -56,6 +50,15 @@
 
 			currDomElement = srcElement;
 		}
+	}
+
+	function save(finalSelector) {
+		chrome.runtime.sendMessage({ action: 'save', data: { name: 'test', url: document.URL, selector: finalSelector } }, (data) => {
+			console.log('risultato salvataggio', data);
+			//const lastError = chrome.runtime.lastError;
+			//lastError instanceof Object ? reject(lastError.message) : resolve(data);
+			finish();
+		});
 	}
 
 	function highlights() {
@@ -113,9 +116,9 @@
 		sendResponse({ data: 'ok' });
 	});
 
-	let createModal = () => {
+	function createModal(selector) {
 
-		var iframe = document.createElement('iframe');
+		iframe = document.createElement('iframe');
 		iframe.style.height = "360px";
 		iframe.style.width = "360px";
 		iframe.style.position = "fixed";
@@ -126,17 +129,20 @@
 		iframe.id = 'ifrm';
 		iframe.src = chrome.extension.getURL("iframe.html");
 		iframe.onload = function () {
-			iframe.contentWindow.postMessage('messaggione', '*');
-
+			iframe.contentWindow.postMessage(selector, '*');
 		}
 
 		document.body.appendChild(iframe);
 
+		window.addEventListener('message', handleModalMessage);
+	}
 
-
-		window.addEventListener('message', function (event) {
-			alert('eccolo iframe ' + event.data);
-		});
+	function handleModalMessage(event) {
+		switch (event.data.action) {
+			case 'save': return save(event.data.data);
+			case 'cancel': return finish();
+			default: console.error('Not a valid action', event.data.action);
+		}
 	}
 
 

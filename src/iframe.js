@@ -1,30 +1,18 @@
-class Iframe {
-    constructor() {
-        this.saveButton = document.getElementById('save-button').onclick = this.onSaveClick;
-        this.initHandlers();
-    }
+const selectorData = document.getElementById('selector-data');
+const saveButton = document.getElementById('save-button');
+const cancelButton = document.getElementById('cancel-button');
 
-    onSaveClick() {
-        console.log('Iframe - Cliccato');
-        parent.postMessage('Save cliccato', '*');
-    }
-
-    initHandlers() {
-
-    }
-
+function onSaveClick() {
+    parent.postMessage({ action: 'save', data: selectorData.textContent }, '*');
 }
 
-window.addEventListener("message", function (event) {
-    /* if (event.origin != 'http://javascript.info') {
-        // something from an unknown domain, let's ignore it
-        return;
-    } */
+function onCancelClick() {
+    parent.postMessage({ action: 'cancel' }, '*');
+}
 
-    alert("received: " + event.data);
-
-    // can message back using event.source.postMessage(...)
+window.addEventListener("message", (event) => {
+    selectorData.textContent = event.data;
 });
 
-window.addEventListener('DOMContentLoaded', new Iframe());
-
+saveButton.onclick = onSaveClick;
+cancelButton.onclick = onCancelClick;

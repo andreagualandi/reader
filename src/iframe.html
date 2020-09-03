@@ -3,29 +3,43 @@
 
 <head>
     <style>
+        body {
+            background-color: antiquewhite;
+            margin: 0;
+        }
+
         #container {
             display: flex;
             flex-flow: column;
+            height: 100vh;
+            justify-content: space-evenly;
         }
 
-        .selector-label {
+        .selector {
             display: inline-flex;
-            width: 100%;
             justify-content: space-around;
             border: 1px;
             border-color: black;
             border-style: solid;
+        }
+
+        .buttons {
+            display: inline-flex;
+            justify-content: space-evenly;
         }
     </style>
 </head>
 
 <body>
     <div id="container">
-        <div class="selector-label">
+        <div class="selector">
             <div>Selector</div>
-            <div>Example</div>
+            <div id="selector-data"></div>
         </div>
-        <button id="save-button">Save</button>
+        <div class="buttons">
+            <button id="save-button">Save</button>
+            <button id="cancel-button">Cancel</button>
+        </div>
     </div>
     <script src="iframe.js"></script>
 </body>

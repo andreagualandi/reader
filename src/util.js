@@ -34,6 +34,9 @@ export function sendMessage(msg, tabId = null) {
 	});
 }
 
+// --- STORAGE ---
+//To watch storage of the extension, open background page from chrome extension page and paste "chrome.storage.sync.get(function(result){console.log(result)})"
+
 export function storageSet(key, value) {
 	return new Promise((resolve, reject) => {
 		chrome.storage.sync.set({ [key]: value }, resolve);
